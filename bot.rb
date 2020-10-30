@@ -1,15 +1,16 @@
-require 'slack-ruby-bot'
+require 'sinatra'
+require 'json'
 
-class Bot
-  def call(client, data)
-    client.say(text: 'yuisekin says: '+data.text, channel: data.channel)
-  end
+get '/' do
+  'Hello World!'
 end
 
-server = SlackRubyBot::Server.new(
-  token: ENV["TOKEN"],
-  hook_handlers: {
-    message: Bot.new
-  }
-)
-server.run
+post '/', provides: :json do
+  json = JSON.parse(request.body.read)
+  case json.type
+  when 'url_verification'
+    return json.channenge
+  else
+    return 'invalid type'
+  end
+end
