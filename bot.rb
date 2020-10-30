@@ -2,7 +2,7 @@ require 'slack-ruby-bot'
 
 class Bot
   def call(client, data)
-    client.say(text: data.text, channel: data.channel)
+    client.say(text: 'yuisekin says: '+data.text, channel: data.channel)
   end
 end
 
