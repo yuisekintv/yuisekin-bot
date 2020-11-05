@@ -28,14 +28,14 @@ def root():
   if request.method == 'GET':
     return 'Hello World!'
   if request.method == 'POST':
-    print('json: '+json.dumps(request.json))
+    print('dump json: '+json.dumps(request.json))
     # typeがurl_verificationのときはchallengeをレスポンスしなければならない
     if request.json['type'] == 'url_verification':
       return request.json['challenge']
     if request.json['type'] == 'event_callback':
       if not request.json['event']['type'] == 'message':
         return 'ok'
-      if request.json['event']['text'].startswith('/'):
+      if 'text' in request.json['event'] and request.json['event']['text'].startswith('/'):
         return 'ok'
       if 'bot_id' in request.json['event']:
         return 'ok'
