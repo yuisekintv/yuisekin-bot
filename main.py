@@ -13,7 +13,6 @@ def pong(channel, text):
   if text == '天気' or text == 'tenki':
     message = '東京都の天気は晴れです'
   params = {
-    'token': token,
     'channel': channel,
     'text': message
   }
@@ -22,7 +21,7 @@ def pong(channel, text):
   else:
     headers = {
       'Authorization': 'Bearer '+token,
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json'
     }
     res = requests.post(url, json=json.dumps(params), headers=headers)
     print('slack api res: '+json.dumps(res.text))
