@@ -23,6 +23,7 @@ def pong(channel, text):
       'Authorization': 'Bearer '+token,
       'Content-Type': 'application/json'
     }
+    print('slack api req: '+json.dumps(params))
     res = requests.post(url, json=json.dumps(params), headers=headers)
     print('slack api res: '+json.dumps(res.text))
     sys.stdout.flush()
