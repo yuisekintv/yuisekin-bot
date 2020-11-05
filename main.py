@@ -4,12 +4,14 @@ import json
 import requests
 from flask import Flask, request, jsonify
 
-def pong(channel, text):
-  url = os.environ.get('SLACK_HOOKS_URL')
+def pong(channel, ts, text):
+  token = os.environ.get('SLACK_BOT_TOKEN')
+  url = 'https://slack.com/api/chat.postMessage'
   message = text
   if text == '天気':
     message = '東京都の天気は晴れです'
   params = {
+    'token': token,
     'channel': channel,
     'text': message
   }
