@@ -29,6 +29,13 @@ def pong(channel, text):
 
 app = Flask(__name__)
 
+@app.before_first_request 
+def startup(): 
+  url = os.environ.get('SLACK_DEPLOY_WEBHOOK_URL')
+  params = {
+    'text': 'released'
+  }
+
 @app.route('/', methods=['GET', 'POST'])
 def root():
   if request.method == 'GET':
