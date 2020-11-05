@@ -4,7 +4,7 @@ import json
 import requests
 from flask import Flask, request, jsonify
 
-def pong(channel, ts, text):
+def pong(channel, text):
   token = os.environ.get('SLACK_BOT_TOKEN')
   url = 'https://slack.com/api/chat.postMessage'
   message = text
