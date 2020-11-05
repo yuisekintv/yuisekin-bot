@@ -5,6 +5,8 @@ import requests
 from flask import Flask, request, jsonify
 
 def pong(channel, text):
+  print('pong channel: '+channel)
+  print('pong text: '+text)
   token = os.environ.get('SLACK_BOT_TOKEN')
   url = 'https://slack.com/api/chat.postMessage'
   message = text
@@ -35,6 +37,7 @@ def root():
     if request.json['type'] == 'url_verification':
       return request.json['challenge']
     if request.json['type'] == 'event_callback':
+      print('dump event: '+json.dumps(request.json['event']))
       if not request.json['event']['type'] == 'message':
         return 'ok'
       if 'text' in request.json['event'] and request.json['event']['text'].startswith('/'):
