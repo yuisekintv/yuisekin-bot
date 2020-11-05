@@ -31,4 +31,4 @@ jobs:
           python-version: ${{ matrix.python-version }}
       # pytest を実行する
       - name: Run Tests
-        run: poetry run pytest test --cov=./slack_api_decorator --cov-report=xml
+        run: pytest --vv
