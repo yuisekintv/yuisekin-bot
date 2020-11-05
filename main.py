@@ -10,7 +10,7 @@ def pong(channel, text):
   token = os.environ.get('SLACK_BOT_TOKEN')
   url = 'https://slack.com/api/chat.postMessage'
   message = text
-  if text == '天気':
+  if text == '天気' or text == 'tenki':
     message = '東京都の天気は晴れです'
   params = {
     'token': token,
