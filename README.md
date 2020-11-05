@@ -1,3 +1,11 @@
+# Development
+
+- `pip install -r`
+
+# Testing
+
+- `pytest -vv`
+
 # Heroku
 
 - `git push origin main`
