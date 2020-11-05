@@ -20,7 +20,10 @@ def pong(channel, text):
   if app.config['TESTING']:
     return params
   else:
-    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+    headers = {
+      'Authorization': 'Bearer '+token,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
     res = requests.post(url, json=params, headers=headers)
     print('slack api res: '+json.dumps(res.text))
     sys.stdout.flush()
