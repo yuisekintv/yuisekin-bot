@@ -39,7 +39,7 @@ def startup():
   headers = {
     'Content-Type': 'application/jso; charset=utf-8'
   }
-  res = request.post(url, data=json.dumps(params).encode('utf-8'), headers=headers)
+  res = requests.post(url, data=json.dumps(params).encode('utf-8'), headers=headers)
   print('slack api res: '+json.dumps(res.text))
   sys.stdout.flush()
 
