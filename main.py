@@ -21,7 +21,7 @@ def pong(channel, text):
   else:
     headers = {
       'Authorization': 'Bearer '+token,
-      'Content-Type': 'application/jso; charset=utf-8'
+      'Content-Type': 'application/json; charset=utf-8'
     }
     print('slack api req: '+json.dumps(params))
     res = requests.post(url, data=json.dumps(params).encode('utf-8'), headers=headers)
@@ -37,7 +37,7 @@ def startup():
     'text': 'I\'m released'
   }
   headers = {
-    'Content-Type': 'application/jso; charset=utf-8'
+    'Content-Type': 'application/json; charset=utf-8'
   }
   res = requests.post(url, data=json.dumps(params).encode('utf-8'), headers=headers)
   print('slack api res: '+json.dumps(res.text))
