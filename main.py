@@ -21,10 +21,10 @@ def pong(channel, text):
   else:
     headers = {
       'Authorization': 'Bearer '+token,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/jso; charset=utf-8'
     }
     print('slack api req: '+json.dumps(params))
-    res = requests.post(url, json=json.dumps(params), headers=headers)
+    res = requests.post(url, data=json.dumps(params).encode('utf-8'), headers=headers)
     print('slack api res: '+json.dumps(res.text))
     sys.stdout.flush()
 
@@ -34,8 +34,14 @@ app = Flask(__name__)
 def startup(): 
   url = os.environ.get('SLACK_DEPLOY_WEBHOOK_URL')
   params = {
-    'text': 'released'
+    'text': 'I\'m released'
   }
+  headers = {
+    'Content-Type': 'application/jso; charset=utf-8'
+  }
+  res = request.post(url, data=json.dumps(params).encode('utf-8'), headers=headers)
+  print('slack api res: '+json.dumps(res.text))
+  sys.stdout.flush()
 
 @app.route('/', methods=['GET', 'POST'])
 def root():
