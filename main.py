@@ -9,9 +9,13 @@ def pong(channel, text):
   print('pong text: '+text)
   token = os.environ.get('SLACK_BOT_TOKEN')
   url = 'https://slack.com/api/chat.postMessage'
-  message = text
+  message = None
   if text == '天気' or text == 'tenki':
     message = '東京都の天気は晴れです'
+  if text.startswith('<@'):
+    message = ':cry:'
+  if message is None:
+    return None
   params = {
     'channel': channel,
     'text': message
