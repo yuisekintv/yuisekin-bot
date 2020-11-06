@@ -36,6 +36,8 @@ app = Flask(__name__)
 
 @app.before_first_request 
 def startup(): 
+  if app.config['TESTING']:
+    return
   url = os.environ.get('SLACK_DEPLOY_WEBHOOK_URL')
   params = {
     'text': 'I\'m released'
