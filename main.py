@@ -53,7 +53,7 @@ def root():
         return 'ok'
       # 自分自身へのメンションだったときだけ反応する
       if 'authorizations' in request.json and len(request.json['authorizations']) > 0:
-        for auth in request.json['event']['authorizations']:
+        for auth in request.json['authorizations']:
           bot_user_id = auth['user_id']
           if request.json['event']['text'].startswith('<@'+bot_user_id):
             mention(request.json['event']['channel'], request.json['event']['text'])
