@@ -23,7 +23,7 @@ steps:
         ]
 
 substitutions:
-  _REGION: us-central1
+  _REGION: asia-northeast1
   _SERVICE_NAME: slack-bot 
   _IMAGE_NAME: slack-bot
   _TAG: latest
