@@ -6,7 +6,7 @@ FROM python:3.8-slim
 ENV PYTHONUNBUFFERED True
 
 # Install production dependencies.
-RUN pip install Flask gunicorn requests
+RUN pip install Flask gunicorn beautifulsoup4 requests
 
 # Copy local code to the container image.
 ENV APP_HOME /app
