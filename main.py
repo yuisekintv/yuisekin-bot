@@ -4,50 +4,32 @@ import json
 import requests
 from flask import Flask, request, jsonify
 
-def pong(channel, text):
-  print('pong channel: '+channel)
-  print('pong text: '+text)
+def send_message(channel, message):
   token = os.environ.get('SLACK_BOT_TOKEN')
   url = 'https://slack.com/api/chat.postMessage'
-  message = None
-  if text == '天気' or text == 'tenki':
-    message = '東京都の天気は晴れです'
-  if text.startswith('<@'):
-    message = ':cry:'
-  if message is None:
-    return None
   params = {
     'channel': channel,
     'text': message
   }
   if app.config['TESTING']:
     return params
-  else:
-    headers = {
-      'Authorization': 'Bearer '+token,
-      'Content-Type': 'application/json; charset=utf-8'
-    }
-    print('slack api req: '+json.dumps(params))
-    res = requests.post(url, data=json.dumps(params).encode('utf-8'), headers=headers)
-    print('slack api res: '+json.dumps(res.text))
-    sys.stdout.flush()
-
-app = Flask(__name__)
-
-@app.before_first_request 
-def startup(): 
-  if app.config['TESTING']:
-    return
-  url = os.environ.get('SLACK_DEPLOY_WEBHOOK_URL')
-  params = {
-    'text': 'I\'m released'
-  }
   headers = {
+    'Authorization': 'Bearer '+token,
     'Content-Type': 'application/json; charset=utf-8'
   }
+  print('slack api req: '+json.dumps(params))
   res = requests.post(url, data=json.dumps(params).encode('utf-8'), headers=headers)
   print('slack api res: '+json.dumps(res.text))
   sys.stdout.flush()
+
+def mention(channel, text):
+  message = ':cry:'
+  if app.config['TESTING']:
+    return message
+  send_message(channel, message)
+
+
+app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def root():
@@ -60,22 +42,32 @@ def root():
       return request.json['challenge']
     if request.json['type'] == 'event_callback':
       print('dump event: '+json.dumps(request.json['event']))
+      # typeがmessageではない場合は無視
       if not request.json['event']['type'] == 'message':
         return 'ok'
-      if 'text' in request.json['event'] and request.json['event']['text'].startswith('/'):
-        return 'ok'
+      # bot_idが含まれている場合は自分自身もしくは他のbotなので無視
       if 'bot_id' in request.json['event']:
         return 'ok'
-      pong(request.json['event']['channel'], request.json['event']['text'])
+      # textが/で始まるコマンドだったら無視
+      if 'text' in request.json['event'] and request.json['event']['text'].startswith('/'):
+        return 'ok'
+      # 自分自身へのメンションだったときだけ反応する
+      if 'authorizations' in request.json and len(request.json['authorizations']) > 0:
+        for auth in request.json['event']['authorizations']:
+          bot_user_id = auth['user_id']
+          if request.json['event']['text'].startswith('<@'+bot_user_id):
+            mention(request.json['event']['channel'], request.json['event']['text'])
     return 'ok'
   sys.stdout.flush()
 
-@app.route('/command/trump', methods=['GET', 'POST'])
+@app.route('/command/poop', methods=['GET', 'POST'])
 def trump():
   print('form: '+json.dumps(request.form))
   count = 1
   if len(request.form['text']) > 0:
     count = int(request.form['text'])
+  if count > 1000:
+    count = 1000
   res = {
     "response_type": "in_channel",
     "text": ':poop:' * count
