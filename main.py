@@ -27,7 +27,7 @@ def mention(channel, text):
   message = ':cry:'
   if app.config['TESTING']:
     return message
-  if text == "天気" or text == "tenki":
+  if "天気" in text or "tenki" in text:
     weather = get_weather()
     message = "東京都の天気は"+weather+"です"
   send_message(channel, message)
@@ -64,8 +64,10 @@ def root():
       if 'authorizations' in request.json and len(request.json['authorizations']) > 0:
         for auth in request.json['authorizations']:
           bot_user_id = auth['user_id']
-          if request.json['event']['text'].startswith('<@'+bot_user_id):
-            mention(request.json['event']['channel'], request.json['event']['text'])
+          bot_user_str = '<@'+bot_user_id+'>'
+          if request.json['event']['text'].startswith(bot_user_str):
+            text = request.json['event']['text'].replace(bot_user_str, '')
+            mention(request.json['event']['channel'], text)
     return 'ok'
   sys.stdout.flush()
 
