@@ -27,6 +27,8 @@ def mention(channel, text):
   message = ':cry:'
   if app.config['TESTING']:
     return message
+  if "選挙" in text or "投票" in text:
+    message = "私の勝ちです"
   if "天気" in text or "tenki" in text:
     weather = get_weather()
     message = "東京都の天気は"+weather+"です"
