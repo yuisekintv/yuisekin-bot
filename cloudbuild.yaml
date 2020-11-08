@@ -29,10 +29,11 @@ steps:
   - POST
   - --data-urlencode
   - "payload={\"text\":\"Cloud Build $BUILD_ID Finish.\"}"
-  - '${_SLACK_WEBHOOK}'
+  - '${_SLACK_DEPLOY_WEBHOOK}'
 
 substitutions:
   _REGION: asia-northeast1
   _SERVICE_NAME: slack-bot 
   _IMAGE_NAME: slack-bot
+  _SLACK_DEPLOY_WEBHOOK: please-set-your-webhook-url
   _TAG: latest
