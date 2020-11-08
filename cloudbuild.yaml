@@ -28,7 +28,7 @@ steps:
   - -X
   - POST
   - --data-urlencode
-  - "payload={\"text\":\"Cloud Build $BUILD_ID Finish.\"}"
+  - "payload={\"text\":\"Cloud Build <https://console.cloud.google.com/cloud-build/builds/$BUILD_ID|$BUILD_ID> Finish.\"}"
   - '${_SLACK_DEPLOY_WEBHOOK}'
 
 substitutions:
