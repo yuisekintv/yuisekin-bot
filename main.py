@@ -2,6 +2,7 @@ import sys
 import os
 import json
 import requests
+from bs4 import BeautifulSoup
 from flask import Flask, request, jsonify
 
 def send_message(channel, message):
@@ -26,8 +27,16 @@ def mention(channel, text):
   message = ':cry:'
   if app.config['TESTING']:
     return message
+  if text == "天気" or text == "tenki":
+    weather = get_weather()
+    message = "東京都の天気は"+weather+"です"
   send_message(channel, message)
 
+def get_weather():
+  res = requests.get('https://weather.yahoo.co.jp/weather/jp/13/4410.html')
+  soup = BeautifulSoup(res.text, 'html.parser')
+  text = soup.find_all('p', class_='pict')[0].get_text()
+  return text
 
 app = Flask(__name__)
 
